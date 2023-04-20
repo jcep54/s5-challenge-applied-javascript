@@ -41,6 +41,10 @@ const Card = (article) => {
   author.appendChild(authorName);
   photoBox.appendChild(photo);
 
+  cardArt.addEventListener('click', ()=>{
+    console.log(headline.textContent)
+  })
+
   return cardArt;
   
 }
@@ -56,8 +60,15 @@ const cardAppender = (selector) => {
   //
   axios.get(`http://localhost:5001/api/articles`)
   .then(res => {
-    console.log(res.data.articles)
-
+    const artObj = res.data.articles;
+    const resKeys = Object.keys(artObj);
+    
+    for (let i = 0; i<resKeys.length;i++){
+      for (let x = 0; x<artObj[resKeys[i]].length;x++){
+        document.querySelector(selector).appendChild(Card(artObj[resKeys[i]][x]))
+      }
+    }
+    
   })
   .catch(err => console.error(err))
 }
